@@ -1,0 +1,12 @@
+{
+  "editor.detectIndentation": false,
+  "editor.tabSize": 2,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "[prisma]": {
+    "editor.formatOnSave": true
+  },
+  "git.detectSubmodules": false,
+  "rust-analyzer.showUnlinkedFileNotification": false,
+}

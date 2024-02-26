@@ -1,0 +1,29 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model FocusSession {
+  id BigInt @id @default(autoincrement())
+
+  userID    BigInt   @map("user_id")
+  expiresAt DateTime @map("expires_at")
+  summarize Boolean
+
+  FocusSummaryEntry FocusSummaryEntry[]
+
+  @@map("focus_session")
+}
+
+model FocusSummaryEntry {
+  channelID BigInt @map("channel_id")
+  messageID BigInt @map("message_id")
+
+  focusSession   FocusSession @relation(fields: [focusSessionID], references: [id])
+  focusSessionID BigInt       @map("focus_session_id")
+
+  content String
+
+  @@id([channelID, messageID])
+  @@map("focus_summary_entry")
+}
