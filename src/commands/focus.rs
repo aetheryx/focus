@@ -51,8 +51,6 @@ pub async fn focus(
     return Ok(());
   };
 
-  ctx.cache();
-
   if !interaction.data.custom_id.eq("confirm") {
     let builder = serenity::CreateInteractionResponse::UpdateMessage(
       serenity::CreateInteractionResponseMessage::new()
