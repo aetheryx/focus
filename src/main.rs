@@ -7,7 +7,7 @@ mod config;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-  dotenvy::dotenv()?;
+  let _ = dotenvy::dotenv();
 
   let framework = poise::Framework::builder()
     .options(poise::FrameworkOptions {
