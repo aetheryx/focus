@@ -12,5 +12,5 @@ lazy_static! {
     env::var("GUILD_ID").expect("GUILD_ID must be set");
 
   pub static ref DATABASE_URL: String =
-    env::var("DATABASE_URL").expect("GUILD_ID must be set");
+    env::var("DATABASE_URL").expect("DATABASE_URL must be set");
 }
