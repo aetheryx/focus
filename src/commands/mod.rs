@@ -1,1 +1,3 @@
-pub mod focus;
+mod focus;
+
+pub use focus::focus as focus;

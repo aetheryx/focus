@@ -5,7 +5,7 @@ use crate::context::{Context, Error};
 use crate::session;
 
 #[poise::command(slash_command, prefix_command)]
-pub async fn focus(
+pub async fn start(
   ctx: Context<'_>,
   #[description = "The amount of hours you need to focus"] hours: Option<u32>,
   #[description = "The amount of minutes you need to focus"] minutes: Option<u32>,
@@ -70,6 +70,6 @@ pub async fn focus(
 
   interaction.create_response(ctx, builder).await?;
   session::create_session(ctx, end).await?;
-  
+
   Ok(())
 }

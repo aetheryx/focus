@@ -11,7 +11,7 @@ async fn main() -> anyhow::Result<()> {
 
   let framework = poise::Framework::builder()
     .options(poise::FrameworkOptions {
-      commands: vec![commands::focus::focus()],
+      commands: vec![commands::focus()],
       ..Default::default()
     })
     .setup(|ctx, _ready, framework| {
