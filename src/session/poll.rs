@@ -1,12 +1,12 @@
 use std::{str::FromStr, time::Duration};
 use poise::serenity_prelude::{Client, GuildId, RoleId, UserId};
-use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
+use sea_orm::{DatabaseConnection, EntityTrait};
 use tokio::time;
-use chrono::Local;
 
 use crate::{
   client::client_builder,
   db::entities::*,
+  session::*,
   config::*,
   db,
 };
@@ -26,7 +26,7 @@ pub async fn poll_thread() -> anyhow::Result<()> {
 }
 
 async fn tick(client: &Client, db: &DatabaseConnection) -> anyhow::Result<()> {
-  let sessions = fetch_inactive_sessions(db).await?;
+  let sessions = get_expired(db).await?;
 
   for session in sessions {
     handle_inactive_session(client, db, session).await?;
@@ -35,24 +35,13 @@ async fn tick(client: &Client, db: &DatabaseConnection) -> anyhow::Result<()> {
   Ok(())
 }
 
-async fn fetch_inactive_sessions(db: &DatabaseConnection) -> anyhow::Result<Vec<focus_session::Model>> {
-  let now = Local::now().naive_local();
-
-  let sessions = focus_session::Entity::find()
-    .filter(focus_session::Column::ExpiresAt.lte(now))
-    .all(db)
-    .await?;
-
-  Ok(sessions)
-}
-
 async fn handle_inactive_session(
   client: &Client,
   db: &DatabaseConnection,
   session: focus_session::Model,
 ) -> anyhow::Result<()> {
-  println!("handling {session:?}");
 
+  println!("handling {session:?}");
   let guild_id = GuildId::from_str(&GUILD_ID)?;
   let user_id = UserId::new(session.user_id.try_into().unwrap());
   let role_id = RoleId::from_str(&FOCUS_ROLE_ID)?;
