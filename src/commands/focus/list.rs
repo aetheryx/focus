@@ -8,9 +8,8 @@ use crate::{
   config::*,
 };
 
-#[poise::command(slash_command, prefix_command)]
+#[poise::command(slash_command)]
 pub async fn list(ctx: Context<'_>) -> Result<(), Error> {
-
   let mut embed = CreateEmbed::default();
   let sessions = session::get_all(ctx).await?;
 

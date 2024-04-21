@@ -4,7 +4,7 @@ use chrono::{Local, Duration};
 use crate::context::{Context, Error};
 use crate::session;
 
-#[poise::command(slash_command, prefix_command)]
+#[poise::command(slash_command)]
 pub async fn start(
   ctx: Context<'_>,
   #[description = "The amount of hours you need to focus"] hours: Option<u32>,

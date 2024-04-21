@@ -4,7 +4,7 @@ use poise::serenity_prelude as serenity;
 use crate::context::{Context, Error};
 use crate::session;
 
-#[poise::command(slash_command, prefix_command)]
+#[poise::command(slash_command)]
 pub async fn extend(
   ctx: Context<'_>,
   #[description = "The amount of hours you want to extend your session by"] hours: Option<u32>,
