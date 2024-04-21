@@ -10,6 +10,16 @@ pub async fn start(
   #[description = "The amount of hours you need to focus"] hours: Option<u32>,
   #[description = "The amount of minutes you need to focus"] minutes: Option<u32>,
 ) -> Result<(), Error> {
+  let existing_session = session::get_session(ctx, ctx.author().id).await?;
+  if existing_session.is_some() {
+    let builder = poise::CreateReply::default()
+      .content("err: you are already in a focus session")
+      .ephemeral(true);
+
+    ctx.send(builder).await?;
+    return Ok(());
+  }
+
   let duration = Duration::hours(hours.unwrap_or(0).into()) +
     Duration::minutes(minutes.unwrap_or(0).into());
 
