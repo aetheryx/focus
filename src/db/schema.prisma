@@ -6,7 +6,7 @@ datasource db {
 model FocusSession {
   id BigInt @id @default(autoincrement())
 
-  userID    BigInt   @map("user_id")
+  userID    BigInt   @unique @map("user_id")
   expiresAt DateTime @map("expires_at")
   summarize Boolean
 
