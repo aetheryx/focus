@@ -77,8 +77,10 @@ impl Generator {
   }
 
   // Fetches an avatar by URL and crops it to a circle
+  // The circle crop is done by coping the pixels within the circle onto
+  // a new pallete, to handle RGB -> RGBA conversion
   pub async fn get_avatar(&self, url: String) -> anyhow::Result<DynamicImage> {
-    let mut avatar = {
+    let source = {
       let response = reqwest::get(url).await?;
       let bytes = response.bytes().await?;
 
@@ -87,20 +89,21 @@ impl Generator {
         .decode()?
     };
 
-    let center = (avatar.width() as f64) / 2.0;
-    let pixels: Vec<_> = avatar.pixels().collect();
-    for (x, y, _) in pixels {
+    let mut destination = DynamicImage::new(source.width(), source.height(), ColorType::Rgba8);
+
+    let center = (source.width() as f64) / 2.0;
+    for (x, y, pixel) in source.pixels() {
       let distance = f64::hypot(
         (x as f64) - center,
         (y as f64) - center
       );
 
-      if (distance + 3.0) > center {
-        avatar.put_pixel(x, y, Rgba([0, 0, 0, 0]));
+      if (distance + 3.0) < center {
+        destination.put_pixel(x, y, pixel)
       }
     }
 
-    Ok(avatar)
+    Ok(destination)
   }
 
   // Calculates the frame dimensions of the avatar for a given frame
