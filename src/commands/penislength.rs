@@ -14,9 +14,13 @@ pub async fn penislength(
     .expect("failed to calculate penis length: penis size is too big");
 
   let title = format!("{}'s penis", user.name);
+  let mut shaft = "=".repeat(penis_length);
+  if penis_length > 0 {
+    shaft.push('D');
+  }
   let description = format!(
-    "## 8{}D\nIt's a whopping **{} centimeters**!",
-    "=".repeat(penis_length),
+    "## 8{}\nIt's a whopping **{} centimeters**!",
+    shaft,
     penis_length
   );
 
