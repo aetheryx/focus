@@ -10,9 +10,8 @@ pub async fn update_session(
 ) -> anyhow::Result<()> {
   focus_session::Entity::update(focus_session::ActiveModel {
     id: ActiveValue::Set(id),
-    user_id: ActiveValue::NotSet,
     expires_at: ActiveValue::Set(expires_at),
-    summarize: ActiveValue::NotSet,
+    ..Default::default()
   })
     .exec(&ctx.data().db)
     .await?;

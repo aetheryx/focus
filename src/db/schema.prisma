@@ -9,6 +9,7 @@ model FocusSession {
   userID    BigInt   @unique @map("user_id")
   expiresAt DateTime @map("expires_at")
   summarize Boolean
+  hide      Boolean  @default(false)
 
   FocusSummaryEntry FocusSummaryEntry[]
 

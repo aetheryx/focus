@@ -23,7 +23,11 @@ pub async fn list(ctx: Context<'_>) -> Result<(), Error> {
 
     embed = embed.field(
       format!("@{}", user.display_name()),
-      format!("- Ends at: <t:{}:F> (<t:{}:R>)", timestamp, timestamp),
+      if session.hide {
+        format!("- Ends at: ? (?)")
+      } else {
+        format!("- Ends at: <t:{}:F> (<t:{}:R>)", timestamp, timestamp)
+      },
       false
     );
   }

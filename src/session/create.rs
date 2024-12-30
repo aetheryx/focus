@@ -17,7 +17,8 @@ pub async fn create_session(
     id: ActiveValue::NotSet,
     user_id: ActiveValue::Set(ctx.author().id.into()),
     expires_at: ActiveValue::Set(end.naive_local()),
-    summarize: ActiveValue::Set(false)
+    summarize: ActiveValue::Set(false),
+    hide: ActiveValue::NotSet,
   })
     .exec(&ctx.data().db)
     .await?;
