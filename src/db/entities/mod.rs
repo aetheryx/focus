@@ -2,5 +2,6 @@
 
 pub mod prelude;
 
+pub mod cat_image;
 pub mod focus_session;
 pub mod focus_summary_entry;

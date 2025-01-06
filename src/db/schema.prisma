@@ -28,3 +28,13 @@ model FocusSummaryEntry {
   @@id([channelID, messageID])
   @@map("focus_summary_entry")
 }
+
+model CatImage {
+  id BigInt @id @default(autoincrement())
+
+  messageID    BigInt @map("message_id")
+  attachmentID BigInt @map("attachment_id")
+
+  @@unique([messageID, attachmentID])
+  @@map("cat_image")
+}
