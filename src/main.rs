@@ -4,16 +4,13 @@ mod db;
 mod client;
 mod session;
 mod config;
+mod event_handler;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
   let _ = dotenvy::dotenv();
 
   let framework = poise::Framework::builder()
-    .options(poise::FrameworkOptions {
-      commands: vec![commands::focus(), commands::penislength(), commands::petpet()],
-      ..Default::default()
-    })
     .setup(|ctx, _ready, framework| {
       Box::pin(async move {
         poise::builtins::register_globally(ctx, &framework.options().commands).await?;
@@ -22,6 +19,13 @@ async fn main() -> anyhow::Result<()> {
         let ctx = context::Data { db };
         Ok(ctx)
       })
+    })
+    .options(poise::FrameworkOptions {
+      commands: vec![commands::focus(), commands::penislength(), commands::petpet()],
+      event_handler: |_ctx, event, _framework, data| {
+        Box::pin(event_handler::handle(event, data))
+      },
+      ..Default::default()
     })
     .build();
 
