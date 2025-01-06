@@ -13,4 +13,7 @@ lazy_static! {
 
   pub static ref DATABASE_URL: String =
     env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+
+  pub static ref CAT_CHANNEL_ID: String =
+    env::var("CAT_CHANNEL_ID").expect("CAT_CHANNEL_ID must be set");
 }
